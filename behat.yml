@@ -1,0 +1,20 @@
+default:
+    suites:
+        default:
+            paths:
+                features: src/Troopers/BehatContexts/Tests/Features/
+            contexts:
+                - Troopers\BehatContexts\Context\MailContext
+                - Troopers\BehatContexts\Context\ExtendedAliceContext
+                - Troopers\BehatContexts\Context\ExtendedEntityContext
+                - Troopers\BehatContexts\Context\ExtendedMinkContext
+                - Troopers\BehatContexts\Tests\Features\Context\TestContext
+    extensions:
+        Knp\FriendlyContexts\Extension:
+            symfony_kernel:
+                bootstrap: src/Troopers/BehatContexts/Tests/App/bootstrap.php
+                path: src/Troopers/BehatContexts/Tests/App/AppKernel.php
+                class: AppKernel
+                env: test
+                debug: true
+        Troopers\BehatContexts\Extension: ~

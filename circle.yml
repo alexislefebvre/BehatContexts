@@ -12,4 +12,6 @@ dependencies:
 
 test:
   override:
-    - vendor/phpunit/phpunit/phpunit src  --verbose --tap
+    - vendor/phpunit/phpunit/phpunit src/ --verbose --tap
+    - vendor/bin/behat --config behat.yml src/Troopers/BehatContexts/Tests/Features/default.feature
+    - vendor/bin/behat --config behat_config.yml src/Troopers/BehatContexts/Tests/Features/config.feature

@@ -41,11 +41,11 @@ class Extension implements ExtensionInterface
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/services'));
         $loader->load('core.yml');
 
-        if ($config['alias_entity']['enabled']) {
+        if (isset($config['alias_entity']) && isset($config['alias_entity']['enabled'])) {
             $container->addCompilerPass(new Compiler\AliasEntityPass());
         }
         $container->addCompilerPass(new Compiler\ExtendedTableNodePass());
-        if ($config['mails']) {
+        if (isset($config['mails']) && isset($config['mails']['path']) && isset($config['mails']['key'])) {
             $loader->load('mail.yml');
             $container->addCompilerPass(new Compiler\MailPass());
         }
@@ -62,13 +62,14 @@ class Extension implements ExtensionInterface
                     ->canBeEnabled()
                 ->end()
                 ->arrayNode('mails')
-                    ->prototype('array')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('path')
-                            ->isRequired()
+                            ->defaultValue(null)
+                            ->cannotBeEmpty()
                         ->end()
                         ->scalarNode('key')
-                            ->defaultValue('keys')
+                            ->defaultValue(null)
                             ->cannotBeEmpty()
                         ->end()
                         ->arrayNode('translation')
